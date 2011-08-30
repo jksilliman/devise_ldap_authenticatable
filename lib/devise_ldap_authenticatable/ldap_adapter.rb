@@ -95,9 +95,14 @@ module Devise
 
 				if ldap_entry
           DeviseLdapAuthenticatable::Logger.send("Requested param #{param} has value #{ldap_entry.send(param)}")
-          ldap_entry.send(param)
+          if ldap_entry.respond_to? param
+            ldap_entry.send(param)
+          else
+            DeviseLdapAuthenticatable::Logger.send("Requested param #{param} could not be found")
+            nil
+          end
         else
-          DeviseLdapAuthenticatable::Logger.send("Requested param #{param} could not be found")
+          DeviseLdapAuthenticatable::Logger.send("User for requested param #{param} could not be found")
           nil
         end
 			end
