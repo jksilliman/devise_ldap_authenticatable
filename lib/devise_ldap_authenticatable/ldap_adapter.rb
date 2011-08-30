@@ -94,7 +94,11 @@ module Devise
         @ldap.search(:filter => filter) {|entry| ldap_entry = entry}
 
 				DeviseLdapAuthenticatable::Logger.send("Requested param #{param} has value #{ldap_entry.send(param)}")
-				ldap_entry.send(param).to_s
+				if ldap_entry
+          ldap_entry.send(param)
+        else
+          nil
+        end
 			end
 			
       def authenticate!
