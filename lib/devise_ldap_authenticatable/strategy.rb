@@ -13,7 +13,7 @@ module Devise
       # success and the authenticated user if everything is okay. Otherwise redirect
       # to sign in page.
       def authenticate!
-        if resource = mapping.to.authenticate_with_ldap(params[scope])
+        if resource = mapping.to.authenticate_with_ldap(params["User"])
           success!(resource)
         else
           fail(:invalid)
@@ -27,7 +27,7 @@ module Devise
         end
 
         def valid_params?
-          params[scope] && params[scope][:password].present?
+          params["User"] && params["User"][:password].present?
         end
     end
   end
